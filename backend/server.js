@@ -8,8 +8,15 @@ import { PrismaClient } from "@prisma/client";
 dotenv.config();
 const app = express();
 const prisma = new PrismaClient();
+const cors = require("cors");
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "*", // Or specify your Vercel frontend URL for production security
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  }),
+);
 app.use(express.json());
 
 // Seed Endpoint
