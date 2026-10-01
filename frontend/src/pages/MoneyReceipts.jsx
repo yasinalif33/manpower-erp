@@ -35,8 +35,8 @@ export default function MoneyReceipts() {
   const fetchData = async () => {
     try {
       const [candRes, recRes] = await Promise.all([
-        fetch("http://localhost:5000/api/candidates"),
-        fetch("http://localhost:5000/api/receipts"),
+        fetch(`${API_URL}/api/candidates`),
+        fetch(`${API_URL}/api/receipts`),
       ]);
       const candData = await candRes.json();
       const recData = await recRes.json();
@@ -64,7 +64,7 @@ export default function MoneyReceipts() {
 
     setSubmitting(true);
     try {
-      const response = await fetch("http://localhost:5000/api/receipts", {
+      const response = await fetch(`${API_URL}/api/receipts`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

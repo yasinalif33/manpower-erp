@@ -62,7 +62,7 @@ export default function Pipeline() {
   useEffect(() => {
     const fetchCandidates = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/candidates");
+        const response = await fetch(`${API_URL}/api/candidates`);
         const data = await response.json();
         setCandidates(data);
       } catch (error) {
@@ -104,18 +104,15 @@ export default function Pipeline() {
 
     try {
       // 1. Send update to PostgreSQL using the existing route
-      const response = await fetch(
-        "http://localhost:5000/api/candidates/bulk-stage",
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            candidateIds: [draggedId],
-            stage: targetStageConfig.id,
-            stageDot: targetStageConfig.dot,
-          }),
-        },
-      );
+      const response = await fetch(`${API_URL}/api/candidates/bulk-stage`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          candidateIds: [draggedId],
+          stage: targetStageConfig.id,
+          stageDot: targetStageConfig.dot,
+        }),
+      });
 
       if (!response.ok) throw new Error("Failed to update stage in database");
 

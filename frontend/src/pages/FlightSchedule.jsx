@@ -33,8 +33,8 @@ export default function FlightSchedule({ setActiveTab }) {
   const fetchData = async () => {
     try {
       const [flightsRes, candidatesRes] = await Promise.all([
-        fetch("http://localhost:5000/api/flights"),
-        fetch("http://localhost:5000/api/candidates"),
+        fetch(`${API_URL}/api/flights`),
+        fetch(`${API_URL}/api/candidates`),
       ]);
       const flightsData = await flightsRes.json();
       const candidatesData = await candidatesRes.json();
@@ -55,7 +55,7 @@ export default function FlightSchedule({ setActiveTab }) {
   const handleCreateFlight = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:5000/api/flights", {
+      const res = await fetch(`${API_URL}/api/flights`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(flightForm),
@@ -79,7 +79,7 @@ export default function FlightSchedule({ setActiveTab }) {
     if (selectedCandidateIds.length === 0) return;
     try {
       const res = await fetch(
-        `http://localhost:5000/api/flights/${activeManifestFlight.id}/assign`,
+        `${API_URL}/api/flights/${activeManifestFlight.id}/assign`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -106,12 +106,9 @@ export default function FlightSchedule({ setActiveTab }) {
       return;
 
     try {
-      const res = await fetch(
-        `http://localhost:5000/api/flights/${flightId}/depart`,
-        {
-          method: "PUT",
-        },
-      );
+      const res = await fetch(`${API_URL}/api/flights/${flightId}/depart`, {
+        method: "PUT",
+      });
       if (!res.ok) throw new Error("Failed to depart flight");
 
       alert("Flight departed! All passengers updated.");

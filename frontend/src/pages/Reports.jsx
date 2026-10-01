@@ -20,7 +20,7 @@ export default function Reports() {
   useEffect(() => {
     const fetchReport = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/reports/financials");
+        const res = await fetch(`${API_URL}/api/reports/financials`);
         if (!res.ok) throw new Error("Failed to fetch report");
         const json = await res.json();
         setData(json);

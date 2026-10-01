@@ -20,9 +20,7 @@ export default function Dashboard({ setActiveTab }) {
   useEffect(() => {
     const fetchDashboardStats = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:5000/api/dashboard/stats",
-        );
+        const response = await fetch(`${API_URL}/api/dashboard/stats`);
         if (!response.ok) throw new Error("Failed to fetch");
         const data = await response.json();
         setStats(data);

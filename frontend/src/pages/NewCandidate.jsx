@@ -37,8 +37,8 @@ export default function NewCandidate({ setActiveTab }) {
   // Fetch live agents & demands in parallel
   useEffect(() => {
     Promise.all([
-      fetch("http://localhost:5000/api/agents").then((res) => res.json()),
-      fetch("http://localhost:5000/api/demands").then((res) => res.json()),
+      fetch(`${API_URL}/api/agents`).then((res) => res.json()),
+      fetch(`${API_URL}/api/demands`).then((res) => res.json()),
     ])
       .then(([agentsData, demandsData]) => {
         setAgents(agentsData);
@@ -56,7 +56,7 @@ export default function NewCandidate({ setActiveTab }) {
 
     setSubmitting(true);
     try {
-      const response = await fetch("http://localhost:5000/api/candidates", {
+      const response = await fetch(`${API_URL}/api/candidates`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

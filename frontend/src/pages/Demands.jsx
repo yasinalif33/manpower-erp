@@ -27,7 +27,7 @@ export default function Demands() {
 
   const fetchDemands = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/demands");
+      const response = await fetch(`${API_URL}/api/demands`);
       if (!response.ok) throw new Error("Failed to fetch");
       const data = await response.json();
       setDemands(data);
@@ -46,7 +46,7 @@ export default function Demands() {
     e.preventDefault();
     setSubmitting(true);
     try {
-      const response = await fetch("http://localhost:5000/api/demands", {
+      const response = await fetch(`${API_URL}/api/demands`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

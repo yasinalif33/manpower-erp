@@ -30,7 +30,7 @@ export default function RBAC() {
 
   const fetchUsers = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/users");
+      const res = await fetch(`${API_URL}/api/users`);
       if (!res.ok) throw new Error("Failed to fetch");
       setUsers(await res.json());
     } catch (error) {
@@ -48,7 +48,7 @@ export default function RBAC() {
     e.preventDefault();
     setSubmitting(true);
     try {
-      const res = await fetch("http://localhost:5000/api/users", {
+      const res = await fetch(`${API_URL}/api/users`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -69,7 +69,7 @@ export default function RBAC() {
 
   const toggleStatus = async (id, currentStatus) => {
     try {
-      await fetch(`http://localhost:5000/api/users/${id}`, {
+      await fetch(`${API_URL}/api/users/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ isActive: !currentStatus }),
@@ -82,7 +82,7 @@ export default function RBAC() {
 
   const changeRole = async (id, newRole) => {
     try {
-      await fetch(`http://localhost:5000/api/users/${id}`, {
+      await fetch(`${API_URL}/api/users/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ role: newRole }),

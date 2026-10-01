@@ -35,8 +35,8 @@ export default function Vouchers() {
   const fetchData = async () => {
     try {
       const [vouchersRes, agentsRes] = await Promise.all([
-        fetch("http://localhost:5000/api/vouchers"),
-        fetch("http://localhost:5000/api/agents"),
+        fetch(`${API_URL}/api/vouchers`),
+        fetch(`${API_URL}/api/agents`),
       ]);
       const vouchersData = await vouchersRes.json();
       const agentsData = await agentsRes.json();
@@ -66,7 +66,7 @@ export default function Vouchers() {
     };
 
     try {
-      const response = await fetch("http://localhost:5000/api/vouchers", {
+      const response = await fetch(`${API_URL}/api/vouchers`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
