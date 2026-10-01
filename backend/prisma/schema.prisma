@@ -1,0 +1,138 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("Processing Officer")
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Candidate {
+  id                 String   @id @default(uuid())
+  fullName           String
+  fatherName         String?
+  phone              String
+  nid                String?
+  dateOfBirth        String?
+  passportNo         String   @unique
+  passportIssueDate  String?
+  passportExpiryDate String?
+  district           String?
+  
+  destinationCountry String
+  trade              String
+  companyName        String
+  demandNo           String?
+  demand             Demand?   @relation(fields: [demandNo], references: [demandNo])
+  agentName          String?
+  agentId            String?
+  agent              Agent?    @relation(fields: [agentId], references: [id])
+  totalPackageAmount Float    @default(0)
+  paidAmount         Float    @default(0)
+  dueAmount          Float    @default(0)
+  
+  stage              String   @default("Medical Fit")
+  stageDot           String   @default("bg-emerald-600")
+  receipts           Receipt[]
+  flightId           String?
+  flight             Flight?   @relation(fields: [flightId], references: [id])
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model Receipt {
+  id            String    @id @default(uuid())
+  receiptNo     String    @unique
+  candidateId   String
+  candidate     Candidate @relation(fields: [candidateId], references: [id])
+  
+  amount        Float
+  paymentMethod String    // Cash, Bank Transfer, Mobile Banking
+  reference     String?   // Check No, TrxID, etc.
+  date          DateTime  @default(now())
+  
+  receivedBy    String    // The admin user who issued it
+  notes         String?
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Agent {
+  id              String      @id @default(uuid())
+  name            String
+  phone           String      @unique
+  district        String?
+  
+  // Financial Ledger for Commissions
+  totalCommission Float       @default(0)
+  paidAmount      Float       @default(0)
+  dueAmount       Float       @default(0)
+  
+  candidates      Candidate[]
+  vouchers        Voucher[]
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+}
+
+model Flight {
+  id            String      @id @default(uuid())
+  flightNumber  String
+  airline       String
+  departureDate DateTime
+  sector        String      // e.g., DAC-RUH (Dhaka to Riyadh)
+  status        String      @default("Scheduled") // Scheduled, Departed, Cancelled
+  
+  candidates    Candidate[]
+  
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model Demand {
+  id          String      @id @default(uuid())
+  demandNo    String      @unique
+  companyName String
+  country     String
+  trade       String
+  quota       Int         @default(0)
+  
+  candidates  Candidate[]
+  
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model Voucher {
+  id            String   @id @default(uuid())
+  voucherNo     String   @unique
+  type          String   @default("Debit") // Expense
+  category      String   // e.g., Office Rent, Salary, Agent Commission, Ticket Purchase
+  
+  amount        Float
+  paymentMethod String
+  reference     String?
+  date          DateTime @default(now())
+  
+  notes         String?
+  issuedBy      String
+  
+  // Optional link if paying an Agent Commission
+  agentId       String?
+  agent         Agent?   @relation(fields: [agentId], references: [id])
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
