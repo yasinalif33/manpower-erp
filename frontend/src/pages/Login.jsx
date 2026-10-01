@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux";
 import { Plane, Lock, Mail, ArrowRight, ShieldCheck } from "lucide-react";
 import { loginSuccess } from "../store/authSlice";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 export default function Login() {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("admin@manpower.erp");

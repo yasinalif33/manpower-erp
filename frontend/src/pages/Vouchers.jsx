@@ -12,6 +12,8 @@ import {
   HelpCircle,
 } from "lucide-react";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 export default function Vouchers() {
   const { user } = useSelector((state) => state.auth);
 

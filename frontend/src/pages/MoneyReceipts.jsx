@@ -11,6 +11,8 @@ import {
   Wallet,
 } from "lucide-react";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 export default function MoneyReceipts() {
   // Grab the logged-in user from Redux to stamp on the receipt
   const { user } = useSelector((state) => state.auth);

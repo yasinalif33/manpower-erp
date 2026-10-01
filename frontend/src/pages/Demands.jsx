@@ -10,6 +10,8 @@ import {
   MapPin,
 } from "lucide-react";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 export default function Demands() {
   const [demands, setDemands] = useState([]);
   const [loading, setLoading] = useState(true);

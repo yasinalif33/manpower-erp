@@ -16,6 +16,8 @@ import {
   Users,
 } from "lucide-react";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 export default function Candidates({ setActiveTab }) {
   const fileInputRef = useRef(null);
 
